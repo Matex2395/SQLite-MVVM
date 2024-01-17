@@ -21,7 +21,7 @@
                 </TableSection>
             </TableRoot>
         </TableView>
-        <Button Text="Guardad Producto"
+        <Button Text="Guardar Producto"
                 Command="{Binding GuardarProducto}"/>
     </VerticalStackLayout>
 </ContentPage>

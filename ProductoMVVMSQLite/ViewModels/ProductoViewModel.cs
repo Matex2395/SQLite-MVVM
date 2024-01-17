@@ -16,19 +16,24 @@ namespace ProductoMVVMSQLite.ViewModels
     public class ProductoViewModel
     {
         public ObservableCollection<Producto> ListaProductos { get; set; }
-
         public ProductoViewModel() {
 
+        }
+        public void LoadProducts()
+        {
             Util.ListaProductos = App.productoRepository.GetAll();
-
             ListaProductos = new ObservableCollection<Producto>(Util.ListaProductos);
-        
         }
 
         public ICommand CrearProducto =>
             new Command(async () =>
             {
                await App.Current.MainPage.Navigation.PushAsync(new NuevoProductoPage());
+            });
+        public ICommand OnClickShowDetails =>
+            new Command<Producto>(async (producto) =>
+            {
+                await App.Current.MainPage.Navigation.PushAsync(new DetallesProductoPage(producto));
             });
 
     }

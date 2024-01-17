@@ -8,6 +8,7 @@ using ProductoMVVMSQLite.Utils;
 using ProductoMVVMSQLite.Views;
 using PropertyChanged;
 using System.Windows.Input;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ProductoMVVMSQLite.ViewModels
 {
@@ -25,17 +26,20 @@ namespace ProductoMVVMSQLite.ViewModels
         }
 
         public ICommand GuardarProducto =>
-            new Command(async () =>
-            {
-                Producto producto = new Producto
+        new Command(async () =>
+        {
+                if (!string.IsNullOrEmpty(Nombre) && !string.IsNullOrEmpty(Descripcion) && !string.IsNullOrEmpty(Cantidad))
                 {
-                    Nombre = Nombre,
-                    Descripcion = Descripcion,
-                    Cantidad = Int32.Parse(Cantidad)
-                };
-                App.productoRepository.Add(producto);
-                Util.ListaProductos = App.productoRepository.GetAll();
-                await App.Current.MainPage.Navigation.PopAsync();
+                Producto producto = new()
+                    {
+                        Nombre = Nombre,
+                        Descripcion = Descripcion,
+                        Cantidad = Int32.Parse(Cantidad)
+                    };
+                    App.productoRepository.Add(producto);
+                    Util.ListaProductos = App.productoRepository.GetAll();
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
             });
 
     }
